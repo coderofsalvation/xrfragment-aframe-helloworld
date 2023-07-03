@@ -9,5 +9,7 @@ This is a simple demo of an AFRAME project with XR Fragments-enriched gltf model
 * Press the fork button, and it will automatically host a clone at your own URL
 * [Download the ZIP](https://github.com/coderofsalvation/xrfragment-aframe-helloworld/archive/refs/heads/main.zip) and edit/run it locally (in your browser)
 
+> More info:
+
 * [XR Fragments github](https://github.com/coderofsalvation/xrfragment)
 * [XR Fragments website](https://xrfragment.org)
