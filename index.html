@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>AFRAME - xrfragment sandbox</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <!-- check https://aframe.io & https://xrfragment.org for the latest versions -->
+    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
+    <script src="./xrfragment.aframe.js"></script>
+  </head>
+  <body>
+    <a-scene light="defaultLightsEnabled: false">
+      <a-entity id="player" wasd-controls look-controls>
+        <a-entity id="left-hand"  laser-controls="hand: left" raycaster="objects:.ray;far:5500"  oculus-touch-controls="hand: left" blink-controls="cameraRig:#player; teleportOrigin: #camera; collisionEntities: #floor">
+          <a-entity rotation="-90 0 0" position="0 0.1 0"> 
+            <a-entity id="back" xrf-button="label: <; width:0.05; action: history.back()"    position="-0.025 0 0" class="ray"></a-entity>
+            <a-entity id="next" xrf-button="label: >; width:0.05; action: history.forward()" position=" 0.025 0 0" class="ray"></a-entity>
+          </a-entity>
+        </a-entity>
+        <a-entity id="right-hand" laser-controls="hand: right" raycaster="objects:.ray;far:5500" oculus-touch-controls="hand: right" blink-controls="cameraRig:#player; teleportOrigin: #camera; collisionEntities: #floor"></a-entity>
+        <a-entity camera="fov:90" position="0 1.6 0" id="camera"></a-entity>
+      </a-entity>
+
+      <a-entity id="home"  xrf="scene.gltf#pos=0,0,0"></a-entity>
+      <a-entity id="floor" xrf-get="floor"></a-entity>
+    </a-scene>
+
+    <script type="module">
+      window.$ = (e) => document.querySelector(e)
+      // forward url to XRF engine
+      if( document.location.search.length > 2 ){ 
+        $('#home').setAttribute('xrf', document.location.search.substr(1)+document.location.hash )
+      }
+      
+      $('a-scene').addEventListener('loaded', () => {
+
+        let XRF = window.AFRAME.XRF
+        // XRF.navigator.to( './other.gltf' )
+      })
+    </script>
+  </body>
+</html>
