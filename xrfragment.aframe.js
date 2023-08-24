@@ -216,30 +216,33 @@ var xrfragment_Parser = $hx_exports["xrfragment"]["Parser"] = function() { };
 xrfragment_Parser.__name__ = true;
 xrfragment_Parser.parse = function(key,value,store) {
 	var Frag_h = Object.create(null);
+	Frag_h["#"] = xrfragment_XRF.ASSET | xrfragment_XRF.T_PREDEFINED_VIEW | xrfragment_XRF.PV_EXECUTE;
 	Frag_h["prio"] = xrfragment_XRF.ASSET | xrfragment_XRF.T_INT;
-	Frag_h["#"] = xrfragment_XRF.ASSET | xrfragment_XRF.T_PREDEFINED_VIEW;
-	Frag_h["class"] = xrfragment_XRF.ASSET | xrfragment_XRF.T_STRING;
 	Frag_h["src"] = xrfragment_XRF.ASSET | xrfragment_XRF.T_URL;
-	Frag_h["pos"] = xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.ROUNDROBIN | xrfragment_XRF.T_VECTOR3 | xrfragment_XRF.T_STRING_OBJ | xrfragment_XRF.EMBEDDED | xrfragment_XRF.NAVIGATOR;
 	Frag_h["href"] = xrfragment_XRF.ASSET | xrfragment_XRF.T_URL | xrfragment_XRF.T_PREDEFINED_VIEW;
-	Frag_h["q"] = xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.T_STRING | xrfragment_XRF.EMBEDDED;
-	Frag_h["scale"] = xrfragment_XRF.QUERY_OPERATOR | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.ROUNDROBIN | xrfragment_XRF.T_VECTOR3 | xrfragment_XRF.EMBEDDED;
-	Frag_h["rot"] = xrfragment_XRF.QUERY_OPERATOR | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.ROUNDROBIN | xrfragment_XRF.T_VECTOR3 | xrfragment_XRF.EMBEDDED | xrfragment_XRF.NAVIGATOR;
-	Frag_h["translate"] = xrfragment_XRF.QUERY_OPERATOR | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.ROUNDROBIN | xrfragment_XRF.T_VECTOR3 | xrfragment_XRF.EMBEDDED;
-	Frag_h["visible"] = xrfragment_XRF.QUERY_OPERATOR | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.ROUNDROBIN | xrfragment_XRF.T_INT | xrfragment_XRF.EMBEDDED;
-	Frag_h["env"] = xrfragment_XRF.ASSET | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.T_STRING | xrfragment_XRF.EMBEDDED;
-	Frag_h["t"] = xrfragment_XRF.ASSET | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.ROUNDROBIN | xrfragment_XRF.T_VECTOR2 | xrfragment_XRF.NAVIGATOR | xrfragment_XRF.EMBEDDED;
-	Frag_h["gravity"] = xrfragment_XRF.ASSET | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.T_VECTOR3 | xrfragment_XRF.EMBEDDED;
-	Frag_h["physics"] = xrfragment_XRF.ASSET | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.T_VECTOR3 | xrfragment_XRF.EMBEDDED;
-	Frag_h["fov"] = xrfragment_XRF.ASSET | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.T_INT | xrfragment_XRF.NAVIGATOR | xrfragment_XRF.EMBEDDED;
-	Frag_h["clip"] = xrfragment_XRF.ASSET | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.T_VECTOR2 | xrfragment_XRF.NAVIGATOR | xrfragment_XRF.EMBEDDED;
-	Frag_h["fog"] = xrfragment_XRF.ASSET | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.T_STRING | xrfragment_XRF.NAVIGATOR | xrfragment_XRF.EMBEDDED;
+	Frag_h["class"] = xrfragment_XRF.ASSET | xrfragment_XRF.T_STRING;
+	Frag_h["pos"] = xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.ROUNDROBIN | xrfragment_XRF.T_VECTOR3 | xrfragment_XRF.T_STRING_OBJ | xrfragment_XRF.METADATA | xrfragment_XRF.NAVIGATOR;
+	Frag_h["q"] = xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.T_STRING | xrfragment_XRF.METADATA;
+	Frag_h["scale"] = xrfragment_XRF.QUERY_OPERATOR | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.ROUNDROBIN | xrfragment_XRF.T_VECTOR3 | xrfragment_XRF.METADATA;
+	Frag_h["rot"] = xrfragment_XRF.QUERY_OPERATOR | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.ROUNDROBIN | xrfragment_XRF.T_VECTOR3 | xrfragment_XRF.METADATA | xrfragment_XRF.NAVIGATOR;
+	Frag_h["mov"] = xrfragment_XRF.QUERY_OPERATOR | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.ROUNDROBIN | xrfragment_XRF.T_VECTOR3 | xrfragment_XRF.METADATA;
+	Frag_h["show"] = xrfragment_XRF.QUERY_OPERATOR | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.ROUNDROBIN | xrfragment_XRF.T_INT | xrfragment_XRF.METADATA;
+	Frag_h["env"] = xrfragment_XRF.ASSET | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.T_STRING | xrfragment_XRF.METADATA;
+	Frag_h["t"] = xrfragment_XRF.ASSET | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.ROUNDROBIN | xrfragment_XRF.T_VECTOR2 | xrfragment_XRF.NAVIGATOR | xrfragment_XRF.METADATA;
+	Frag_h["gravity"] = xrfragment_XRF.ASSET | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.T_VECTOR3 | xrfragment_XRF.METADATA;
+	Frag_h["physics"] = xrfragment_XRF.ASSET | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.T_VECTOR3 | xrfragment_XRF.METADATA;
+	Frag_h["fov"] = xrfragment_XRF.ASSET | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.T_INT | xrfragment_XRF.NAVIGATOR | xrfragment_XRF.METADATA;
+	Frag_h["clip"] = xrfragment_XRF.ASSET | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.T_VECTOR2 | xrfragment_XRF.NAVIGATOR | xrfragment_XRF.METADATA;
+	Frag_h["fog"] = xrfragment_XRF.ASSET | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.T_VECTOR2 | xrfragment_XRF.NAVIGATOR | xrfragment_XRF.METADATA;
+	Frag_h["bg"] = xrfragment_XRF.ASSET | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.T_VECTOR3 | xrfragment_XRF.NAVIGATOR | xrfragment_XRF.METADATA;
 	Frag_h["namespace"] = xrfragment_XRF.ASSET | xrfragment_XRF.T_STRING;
 	Frag_h["SPDX"] = xrfragment_XRF.ASSET | xrfragment_XRF.T_STRING;
 	Frag_h["unit"] = xrfragment_XRF.ASSET | xrfragment_XRF.T_STRING;
 	Frag_h["description"] = xrfragment_XRF.ASSET | xrfragment_XRF.T_STRING;
-	Frag_h["session"] = xrfragment_XRF.ASSET | xrfragment_XRF.T_URL | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.NAVIGATOR | xrfragment_XRF.EMBEDDED | xrfragment_XRF.PROMPT;
-	if(value.length == 0 && key.length > 0 && !Object.prototype.hasOwnProperty.call(Frag_h,key)) {
+	Frag_h["session"] = xrfragment_XRF.ASSET | xrfragment_XRF.T_URL | xrfragment_XRF.PV_OVERRIDE | xrfragment_XRF.NAVIGATOR | xrfragment_XRF.METADATA | xrfragment_XRF.PROMPT;
+	var isPVDynamic = value.length == 0 && key.length > 0 && !Object.prototype.hasOwnProperty.call(Frag_h,key);
+	var isPVDefault = value.length == 0 && key.length > 0 && key == "#";
+	if(isPVDynamic) {
 		var v = new xrfragment_XRF(key,xrfragment_XRF.PV_EXECUTE | xrfragment_XRF.NAVIGATOR);
 		v.validate(key);
 		store[key] = v;
@@ -252,12 +255,12 @@ xrfragment_Parser.parse = function(key,value,store) {
 	var v = new xrfragment_XRF(key,Frag_h[key]);
 	if(Object.prototype.hasOwnProperty.call(Frag_h,key)) {
 		if(!v.validate(value)) {
-			console.log("src/xrfragment/Parser.hx:82:","⚠ fragment '" + key + "' has incompatible value (" + value + ")");
+			console.log("src/xrfragment/Parser.hx:83:","⚠ fragment '" + key + "' has incompatible value (" + value + ")");
 			return false;
 		}
 		store[key] = v;
 		if(xrfragment_Parser.debug) {
-			console.log("src/xrfragment/Parser.hx:86:","✔ " + key + ": " + v.string);
+			console.log("src/xrfragment/Parser.hx:87:","✔ " + key + ": " + v.string);
 		}
 	} else {
 		if(typeof(value) == "string") {
@@ -582,7 +585,7 @@ xrfragment_XRF.QUERY_OPERATOR = 4;
 xrfragment_XRF.PROMPT = 8;
 xrfragment_XRF.ROUNDROBIN = 16;
 xrfragment_XRF.NAVIGATOR = 32;
-xrfragment_XRF.EMBEDDED = 64;
+xrfragment_XRF.METADATA = 64;
 xrfragment_XRF.PV_OVERRIDE = 128;
 xrfragment_XRF.PV_EXECUTE = 256;
 xrfragment_XRF.T_COLOR = 8192;
@@ -753,7 +756,6 @@ xrf.parseModel = function(model,url){
 xrf.getLastModel = ()           => xrf.model.last 
 
 xrf.eval = function( url, model, flags ){  // evaluate fragments in url
-  let notice = false
   model = model || xrf.model
   let { THREE, camera } = xrf
   let frag = xrf.URI.parse( url, flags || xrf.XRF.NAVIGATOR )
@@ -780,10 +782,11 @@ xrf.eval.mesh     = (mesh,model) => { // evaluate embedded fragments (metadata) 
 }
 
 xrf.eval.fragment = (k, opts ) => { // evaluate one fragment
+  let frag = opts.frag[k];
   // call native function (xrf/env.js e.g.), or pass it to user decorator
   let func = xrf.frag[k] || function(){} 
-  if(  xrf[k] ) xrf[k]( func, opts.frag[k], opts)
-  else                  func( opts.frag[k], opts)
+  if(  xrf[k] ) xrf[k]( func, frag, opts)
+  else                  func( frag, opts)
 }
 
 xrf.reset = () => {
@@ -982,12 +985,14 @@ xrf.navigator.to = (url,flags,loader,data) => {
     const onLoad = (model) => {
       xrf.reset() // clear xrf objects from scene
       model.file = file
-      xrf.add( model.scene )
       // only change url when loading *another* file
       if( xrf.model ) xrf.navigator.pushState( `${dir}${file}`, hash )
       xrf.model = model 
-      xrf.eval( '#', model )     // execute the default projection '#' (if exist)
-      xrf.eval( url, model )     // and eval URI XR fragments 
+      // spec: 1. execute the default predefined view '#' (if exist) (https://xrfragment.org/#predefined_view)
+      xrf.frag.defaultPredefinedView({model,scene:model.scene})
+      // spec: 2. execute predefined view(s) from URL (https://xrfragment.org/#predefined_view)
+      xrf.eval( url, model )                                                 // and eval URI XR fragments 
+      xrf.add( model.scene )
       if( !hash.match(/pos=/) ) 
         xrf.eval( '#pos=0,0,0' ) // set default position if not specified
       resolve(model)
@@ -1020,6 +1025,23 @@ xrf.navigator.pushState = (file,hash) => {
   if( file == document.location.search.substr(1) ) return // page is in its default state
   window.history.pushState({},`${file}#${hash}`, document.location.pathname + `?${file}#${hash}` )
 }
+xrf.frag.bg = function(v, opts){
+  let { frag, mesh, model, camera, scene, renderer, THREE} = opts
+
+  console.log("└ bg "+v.x+","+v.y+","+v.z);
+  if( scene.background ) delete scene.background
+  scene.background = new THREE.Color( v.x, v.y, v.z )
+}
+xrf.frag.clip = function(v, opts){
+  let { frag, mesh, model, camera, scene, renderer, THREE} = opts
+
+  if( v.x == 0 ) v.x = 1;  // THREE.js .near restriction
+  console.log("└ clip "+v.x+","+v.y);
+
+  camera.near = v.x
+  camera.far  = v.y
+  camera.updateProjectionMatrix();
+}
 xrf.frag.env = function(v, opts){
   let { mesh, model, camera, scene, renderer, THREE} = opts
   let env = mesh.getObjectByName(v.string)
@@ -1030,6 +1052,22 @@ xrf.frag.env = function(v, opts){
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 2;
   console.log(`   └ applied image '${v.string}' as environment map`)
+}
+xrf.frag.fog = function(v, opts){
+  let { frag, mesh, model, camera, scene, renderer, THREE} = opts
+
+  console.log("└ fog "+v.x+","+v.y);
+  if( v.x == 0 && v.y == 0 ){  
+    if( scene.fog ) delete scene.fog
+    scene.fog = null;
+  }else scene.fog = new THREE.Fog( scene.background, v.x, v.y );
+}
+xrf.frag.fov = function(v, opts){
+  let { frag, mesh, model, camera, scene, renderer, THREE} = opts
+
+  console.log("└ fov "+v.int);
+  camera.fov = v.int;
+  camera.updateProjectionMatrix();
 }
 /**
  * 
@@ -1162,7 +1200,7 @@ xrf.frag.href = function(v, opts){
     mesh.scale.copy(world.scale)
     mesh.setRotationFromQuaternion(world.quat);
     xrf.interactive.add(mesh)
-  }, 20, mesh )
+  }, 10, mesh )
 }
 
 /**
@@ -1176,16 +1214,45 @@ xrf.frag.href = function(v, opts){
  * 
  * > capture of <a href="./example/aframe/sandbox" target="_blank">aframe/sandbox</a>
  */
-xrf.frag.pos = function(v, opts){
+xrf.frag.mov = function(v, opts){
   let { frag, mesh, model, camera, scene, renderer, THREE} = opts
 
-  if( !frag.q ){ 
+  if( frag.q ){ // only operate on queried object(s)
+    frag.q.getObjects().map( (o) => {
+      o.position.add( new THREE.Vector3( v.x, v.y, v.z ) )
+    })
+  }
+
+}
+xrf.frag.pos = function(v, opts){
+  let { frag, mesh, model, camera, scene, renderer, THREE} = opts
+  
+  if( frag.q ){ // only operate on queried object(s)
+
+    // apply roundrobin (if any)
+    if( v.args ) v = v.args[ xrf.roundrobin(v,model) ]
+
+    frag.q.getObjects().map( (o) => {
+      // if object has no parent (name == 'Scene') use absolute positioning, otherwise relative to parent
+      o.position.x = o.parent.name == 'Scene' ? v.x : o.positionOriginal.x + v.x
+      o.position.y = o.parent.name == 'Scene' ? v.z : o.positionOriginal.y + v.z
+      o.position.z = o.parent.name == 'Scene' ? v.y : o.positionOriginal.z + v.y
+    })
+  }else{
     camera.position.x = v.x
     camera.position.y = v.y
     camera.position.z = v.z
   }
+
 }
-const updatePredefinedView = (opts) => {
+xrf.frag.defaultPredefinedView = (opts) => {
+  let {scene,model} = opts;
+  let frag = {}
+  xrf.Parser.parse("#","",frag)
+  xrf.frag.updatePredefinedView({frag,model,scene})
+}
+
+xrf.frag.updatePredefinedView = (opts) => {
   let {frag,scene,model} = opts 
 
   // spec: https://xrfragment.org/#Selection%20of%20interest
@@ -1213,15 +1280,19 @@ const updatePredefinedView = (opts) => {
 
   // spec: https://xrfragment.org/#predefined_view
   const predefinedView = (frag,scene,mesh) => {
-    let id   = frag.string
-    if( !id ) return  // prevent empty matches
-    if( mesh.userData[`#${id}`] ){ // get alias
-      frag = xrf.URI.parse( mesh.userData[`#${id}`], xrf.XRF.NAVIGATOR | xrf.XRF.PV_OVERRIDE | xrf.XRF.EMBEDDED )
+    let id   = frag.string || frag.fragment
+    id       = `#${id}`
+    if( id == '##' ) id = '#'; // default predefined view
+    if( !id ) return           // prevent empty matches
+    if( mesh.userData[id] ){   // get alias
+      frag = xrf.URI.parse( mesh.userData[id], xrf.XRF.NAVIGATOR | xrf.XRF.PV_OVERRIDE | xrf.XRF.METADATA )
       xrf.emit('predefinedView',{...opts,frag})
       .then( () => {
         for ( let k in frag ){
           let opts = {frag, model, camera: xrf.camera, scene: xrf.scene, renderer: xrf.renderer, THREE: xrf.THREE }
-          xrf.eval.fragment(k,opts) 
+          if( frag[k].is( xrf.XRF.PV_EXECUTE ) && scene.XRF_PV_ORIGIN != k ){  // cyclic detection
+            traverseScene(frag[k],scene)                                       // recurse predefined views
+          }else xrf.eval.fragment(k,opts) 
         }
       })
     }
@@ -1243,9 +1314,10 @@ const updatePredefinedView = (opts) => {
   for ( let i in frag  ) {
     let v = frag[i]
     if( v.is( xrf.XRF.PV_EXECUTE ) ){
+      scene.XRF_PV_ORIGIN = v.string
       if( v.args ) v = v.args[ xrf.roundrobin(v,xrf.model) ]
-      // wait for nested instances to arrive at the scene 
-      setTimeout( () => traverseScene(v,scene), 100 )
+      // wait for nested instances to arrive at the scene ?
+      traverseScene(v,scene)
       if( v.string ) pviews.push(v.string)
     }else if( v.is( xrf.XRF.NAVIGATOR ) ) pviews.push(`${i}=${v.string}`)
   }
@@ -1253,13 +1325,16 @@ const updatePredefinedView = (opts) => {
 }
 
 // when predefined view occurs in url changes
-xrf.addEventListener('eval', updatePredefinedView ) 
+//xrf.addEventListener('updateHash', (opts) => {
+//  let frag = xrf.URI.parse( opts.xrf.string, xrf.XRF.NAVIGATOR | xrf.XRF.PV_OVERRIDE | xrf.XRF.METADATA )
+//  xrf.frag.updatePredefinedView({frag,scene:xrf.scene,href:opts.xrf})
+//}) 
 
 // clicking href url with predefined view 
 xrf.addEventListener('href', (opts) => {
   if( !opts.click || opts.xrf.string[0] != '#' ) return 
-  let frag = xrf.URI.parse( opts.xrf.string, xrf.XRF.NAVIGATOR | xrf.XRF.PV_OVERRIDE | xrf.XRF.EMBEDDED )
-  updatePredefinedView({frag,scene:xrf.scene,href:opts.xrf})
+  let frag = xrf.URI.parse( opts.xrf.string, xrf.XRF.NAVIGATOR | xrf.XRF.PV_OVERRIDE | xrf.XRF.METADATA )
+  xrf.frag.updatePredefinedView({frag,scene:xrf.scene,href:opts.xrf})
 }) 
 
 //let updateUrl = (opts) => {
@@ -1274,6 +1349,23 @@ xrf.frag.q = function(v, opts){
   let { frag, mesh, model, camera, scene, renderer, THREE} = opts
   console.log("   └ running query ")
   let qobjs = Object.keys(v.query)
+
+  // convience function for other fragments (which apply to the query)
+  frag.q.getObjects = () => {
+    let objs = []
+    scene.traverse( (o) => {
+      for ( let name in v.query ) {
+        let qobj = v.query[name];
+        if( qobj.class && o.userData.class && o.userData.class == name ) objs.push(o)
+        else if( qobj.id && o.name == name ) objs.push(o)
+      }
+    })
+    return objs.filter( (o) => o ) // return and filter out empty
+               .map( (o) => {
+                 if( !o.positionOriginal ) o.positionOriginal = o.position.clone() 
+                 return o
+               })
+  }
 
   // spec: https://xrfragment.org/#src
   const instanceScene = () => {
@@ -1329,14 +1421,56 @@ xrf.frag.q = function(v, opts){
   else showHide()                          // spec : https://xrfragment.org/#queries
 }
 xrf.frag.rot = function(v, opts){
-  let { mesh, model, camera, scene, renderer, THREE} = opts
-  console.log("   └ setting camera rotation to "+v.string)
-  camera.rotation.set( 
-    v.x * Math.PI / 180,
-    v.y * Math.PI / 180,
-    v.z * Math.PI / 180
-  )
-  camera.updateMatrixWorld()
+  let { frag, mesh, model, camera, scene, renderer, THREE} = opts
+  
+  // apply roundrobin (if any)
+  if( v.args ) v = v.args[ xrf.roundrobin(v,model) ]
+
+  if( frag.q ){ // only operate on queried object(s)
+    frag.q.getObjects().map( (o) => {
+      o.rotation.set( 
+        v.x * Math.PI / 180,
+        v.y * Math.PI / 180,
+        v.z * Math.PI / 180
+      )
+    })
+  }else{
+    console.log("   └ setting camera rotation to "+v.string)
+    camera.rotation.set( 
+      v.x * Math.PI / 180,
+      v.y * Math.PI / 180,
+      v.z * Math.PI / 180
+    )
+    camera.updateMatrixWorld()
+  }
+}
+xrf.frag.scale = function(v, opts){
+  let { frag, mesh, model, camera, scene, renderer, THREE} = opts
+  
+  // apply roundrobin (if any)
+  if( v.args ) v = v.args[ xrf.roundrobin(v,model) ]
+
+  if( frag.q ){ // only operate on queried object(s)
+    frag.q.getObjects().map( (o) => {
+      o.scale.x = v.x
+      o.scale.y = v.y
+      o.scale.z = v.z
+    })
+  }
+
+}
+xrf.frag.show = function(v, opts){
+  let { frag, mesh, model, camera, scene, renderer, THREE} = opts
+
+  // apply roundrobin (if any)
+  if( v.args ) v = v.args[ xrf.roundrobin(v,model) ]
+
+  if( frag.q ){ // only operate on queried object(s)
+    frag.q.getObjects().map( (o) => {
+      o.visible = v.int == 1;
+    })
+  }
+
 }
 // *TODO* use webgl instancing
 
@@ -1559,7 +1693,8 @@ window.AFRAME.registerComponent('xrf', {
     // in order to set the rotation programmatically
     // we need to disable look-controls
     xrf.rot  = (xrf,v,opts) => {
-      let {renderer} = opts;
+      let {frag,renderer} = opts;
+      if( frag.q ) return // camera was not targeted for rotation 
       let look = document.querySelector('[look-controls]')
       if( look ) look.removeAttribute("look-controls")
       camOverride(xrf,v,opts)
