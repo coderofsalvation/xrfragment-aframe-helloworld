@@ -4,39 +4,96 @@
     <title>AFRAME - xrfragment sandbox</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <!-- check https://aframe.io & https://xrfragment.org for the latest versions -->
-    <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://xrfragment.org/dist/xrfragment.aframe.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
-    <script src="./xrfragment.aframe.js"></script>
+
+    <link  href="https://xrfragment.org/example/assets/css/style.css" type="text/css" rel="stylesheet"/>
   </head>
   <body>
-    <a-scene light="defaultLightsEnabled: false">
-      <a-entity id="player" wasd-controls look-controls>
-        <a-entity id="left-hand"  laser-controls="hand: left" raycaster="objects:.ray;far:5500"  oculus-touch-controls="hand: left" blink-controls="cameraRig:#player; teleportOrigin: #camera; collisionEntities: #floor">
-          <a-entity rotation="-90 0 0" position="0 0.1 0"> 
+    <div id="overlay" style="display:none">
+      <img src="https://xrfragment.org/example/assets/logo.png" class="logo"/>
+      <button id="navback"  onclick="history.back()">&lt;</button>
+      <button id="navforward" onclick="history.forward()">&gt;</button>
+      <input type="submit" value="load 3D file"></input>
+      <input type="text" id="uri" value="" onchange="AFRAME.XRF.navigator.to( $('#uri').value )" style="display:none"/> 
+    </div>
+
+    <!-- open AFRAME inspector: $('a-scene').components.inspector.openInspector() -->
+    <a class="btn-foot" id="source" target="_blank" href="https://github.com/coderofsalvation/xrfragment-helloworld">➕ host</a> 
+    <a class="btn-foot" id="embed" target="_blank" onclick="window.embed()">🔗 share</a> 
+    <a class="btn-foot" id="model" target="_blank" onclick="window.download()">⬇️  scene</a> 
+    <a class="btn-foot" id="more" target="_blank">XRF</a> 
+    <textarea style="display:none"></textarea>
+    <canvas id="qrcode" style="display:none" width="300" height="300"></canvas>
+
+    <a-scene renderer="colorManagement: true; highRefreshRate:true" light="defaultLightsEnabled: false">
+      <a-entity id="player">
+        <a-entity camera="fov:90" position="0 1.6 0" wasd-controls look-controls id="camera"></a-entity>
+        <a-entity id="left-hand"  laser-controls="hand: left" raycaster="objects:.ray" blink-controls="cameraRig:#player; teleportOrigin: #camera; collisionEntities: .floor">
+          <a-entity rotation="-35 0 0" position="0 0.1 0" id="navigator"> 
             <a-entity id="back" xrf-button="label: <; width:0.05; action: history.back()"    position="-0.025 0 0" class="ray"></a-entity>
             <a-entity id="next" xrf-button="label: >; width:0.05; action: history.forward()" position=" 0.025 0 0" class="ray"></a-entity>
           </a-entity>
         </a-entity>
-        <a-entity id="right-hand" laser-controls="hand: right" raycaster="objects:.ray;far:5500" oculus-touch-controls="hand: right" blink-controls="cameraRig:#player; teleportOrigin: #camera; collisionEntities: #floor"></a-entity>
-        <a-entity camera="fov:90" position="0 1.6 0" id="camera"></a-entity>
+        <a-entity id="right-hand" laser-controls="hand: right" raycaster="objects:.ray" blink-controls="cameraRig:#player; teleportOrigin: #player; collisionEntities: .floor"></a-entity>
       </a-entity>
 
-      <a-entity id="home"  xrf="scene.gltf#pos=0,0,0"></a-entity>
-      <a-entity id="floor" xrf-get="floor"></a-entity>
+      <a-entity id="home"  xrf="index.glb"></a-entity>
     </a-scene>
 
-    <script type="module">
-      window.$ = (e) => document.querySelector(e)
-      // forward url to XRF engine
-      if( document.location.search.length > 2 ){ 
+    <script>
+      window.$ = (s) => document.querySelector(s)
+      if( document.location.search.length > 2 ) 
         $('#home').setAttribute('xrf', document.location.search.substr(1)+document.location.hash )
-      }
-      
-      $('a-scene').addEventListener('loaded', () => {
+
+      // allow iframe to open url
+      window.addEventListener('message', (event) => {
+        if (event.data && event.data.url) {
+          window.open(event.data.url, '_blank');
+        }
+      });
+        
+
+      $('a-scene').addEventListener('XRF', () => {
+        window.notify = notify(window)
+        window.embed  = embed
+        window.notify('loading '+document.location.search.substr(1))
+
+        // reroute console messages to snackbar notifications
+        console.log = ( (log) => function(str){
+          if( String(str).match(/(:.*#|note:)/) ) window.notify(str)
+          log(str)
+        })(console.log)
 
         let XRF = window.AFRAME.XRF
-        // XRF.navigator.to( './other.gltf' )
+        setupConsole( $('textarea') )
+        setupUrlBar( $('input#uri'), XRF )
+
+        // on localhost enable debugging mode for developer convenience
+        let loc = document.location
+        if( loc.host.match(/^localhost/) ){
+          $('a-scene').setAttribute('stats')
+          XRF.debug = 1
+        }
+
+        // add screenshot component with camera to capture bigger size equirects
+        // document.querySelector('a-scene').components.screenshot.capture('perspective')
+        $('a-scene').setAttribute("screenshot",{camera: "[camera]",width: 4096*2, height:2048*2})
+
+        if( window.outerWidth > 800 )
+          setTimeout( () => window.notify("use WASD-keys and mouse-drag to move around",{timeout:false}),2000 )
+
+        window.AFRAME.XRF.addEventListener('href', (data) => data.selected ? window.notify(`href: ${data.xrf.string}`) : false )
+
+        // enable user-uploaded asset files
+				let fileLoaders = loadFile({
+          ".gltf": (file) => file.arrayBuffer().then( (data) => xrf.navigator.to(file.name,null, (new xrf.loaders.gltf()), data) ),
+          ".glb":  (file) => file.arrayBuffer().then( (data) => xrf.navigator.to(file.name,null, (new xrf.loaders.gltf()), data) )
+				})
+				$("#overlay > input[type=submit]").addEventListener("click", fileLoaders )
+
       })
     </script>
   </body>
