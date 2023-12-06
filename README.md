@@ -2,7 +2,7 @@
 
 <img src="https://xrfragment.org/example/assets/logo.png" width="30%"/>
 
-This is a simple demo of an AFRAME project with XR Fragments-enriched gltf models (which you can edit).
+This is a simple demo of an AFRAME project with XR Fragments-enriched gltf/usdz/fbx/obj/collada/xyz models (which you can edit).
 
 > NOTE: this repo is for developers, designers will prefer [xrfragment-helloworld](https://github.com/coderofsalvation/xrfragment-helloworld) to get started
 
