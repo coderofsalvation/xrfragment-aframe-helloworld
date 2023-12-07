@@ -18,3 +18,11 @@ choose between 2 different ways:
 
 * [XR Fragments github](https://github.com/coderofsalvation/xrfragment)
 * [XR Fragments website](https://xrfragment.org)
+
+## Credits
+
+<br>
+<a href="https://nlnet.nl" target="_blank">
+  <img src="https://nlnet.nl/image/logo_nlnet.svg" width="100"/>
+</a>
+
