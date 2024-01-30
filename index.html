@@ -1,36 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>AFRAME - xrfragment sandbox</title>
+    <title>XR Fragments aframe viewer</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+    <script src="https://xrfragment.org/dist/aframe.min.js"></script> <!-- v1.5.0 -->
     <script src="https://xrfragment.org/dist/xrfragment.aframe.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aframe-blink-controls/dist/aframe-blink-controls.min.js"></script>
 
-    <link  href="https://xrfragment.org/example/assets/css/style.css" type="text/css" rel="stylesheet"/>
   </head>
   <body>
-    <div id="overlay" style="display:none">
-      <img src="https://xrfragment.org/example/assets/logo.png" class="logo"/>
-      <button id="navback"  onclick="history.back()">&lt;</button>
-      <button id="navforward" onclick="history.forward()">&gt;</button>
-      <input type="submit" value="load 3D file"></input>
-      <input type="text" id="uri" value="" onchange="AFRAME.XRF.navigator.to( $('#uri').value )" style="display:none"/> 
-    </div>
 
-    <!-- open AFRAME inspector: $('a-scene').components.inspector.openInspector() -->
-    <a class="btn-foot" id="source" target="_blank" href="https://github.com/coderofsalvation/xrfragment-helloworld">➕ host</a> 
-    <a class="btn-foot" id="embed" target="_blank" onclick="window.embed()">🔗 share</a> 
-    <a class="btn-foot" id="model" target="_blank" onclick="window.download()">⬇️  scene</a> 
-    <a class="btn-foot" id="more" target="_blank">XRF</a> 
-    <textarea style="display:none"></textarea>
-    <canvas id="qrcode" style="display:none" width="300" height="300"></canvas>
-
-    <a-scene renderer="colorManagement: true; highRefreshRate:true" light="defaultLightsEnabled: false">
-      <a-entity id="player">
-        <a-entity camera="fov:90" position="0 1.6 0" wasd-controls look-controls id="camera"></a-entity>
+    <a-scene xr-mode-ui="XRMode: xr"  renderer="colorManagement: true; highRefreshRate:true; multiviewStereo:true " light="defaultLightsEnabled: false">
+      <a-entity id="player" wasd-controls look-controls>
+        <a-entity camera="fov:90" position="0 1.6 0" id="camera"></a-entity>
         <a-entity id="left-hand"  laser-controls="hand: left" raycaster="objects:.ray" blink-controls="cameraRig:#player; teleportOrigin: #camera; collisionEntities: .floor">
           <a-entity rotation="-35 0 0" position="0 0.1 0" id="navigator"> 
             <a-entity id="back" xrf-button="label: <; width:0.05; action: history.back()"    position="-0.025 0 0" class="ray"></a-entity>
@@ -40,61 +23,56 @@
         <a-entity id="right-hand" laser-controls="hand: right" raycaster="objects:.ray" blink-controls="cameraRig:#player; teleportOrigin: #player; collisionEntities: .floor"></a-entity>
       </a-entity>
 
-      <a-entity id="home"  xrf="index.glb"></a-entity>
+      <a-entity id="home" xrf="index.glb" xrf-menu></a-entity>
     </a-scene>
 
+    <!-- OPTIONAL                                                                                            -->
+    <!--                                                                                                     -->
+    <!-- everything below is completely optional, but handy to add a quick menu / connectivity to your space -->
+    <!--                                                                                                     -->
     <script>
-      window.$ = (s) => document.querySelector(s)
-      if( document.location.search.length > 2 ) 
-        $('#home').setAttribute('xrf', document.location.search.substr(1)+document.location.hash )
 
-      // allow iframe to open url
-      window.addEventListener('message', (event) => {
-        if (event.data && event.data.url) {
-          window.open(event.data.url, '_blank');
-        }
-      });
-        
+      document.addEventListener('$menu:ready', (e) => {
+        let {$menu} = e.detail
+        // add your menubuttons:
+        $menu.buttons = $menu.buttons.concat([
+          `<a class="btn" aria-label="button" aria-title="menu button" onclick="$menu.showAbout()"><i class="gg-info"></i>&nbsp;&nbsp;&nbsp;about</a><br>`
+        ])
+        $menu.collapsed = false
+        $menu.showAbout = () => window.notify(`
+            <h1>💁 Hi there!</h1>
 
-      $('a-scene').addEventListener('XRF', () => {
-        window.notify = notify(window)
-        window.embed  = embed
-        window.notify('loading '+document.location.search.substr(1))
-
-        // reroute console messages to snackbar notifications
-        console.log = ( (log) => function(str){
-          if( String(str).match(/(:.*#|note:)/) ) window.notify(str)
-          log(str)
-        })(console.log)
-
-        let XRF = window.AFRAME.XRF
-        setupConsole( $('textarea') )
-        setupUrlBar( $('input#uri'), XRF )
-
-        // on localhost enable debugging mode for developer convenience
-        let loc = document.location
-        if( loc.host.match(/^localhost/) ){
-          $('a-scene').setAttribute('stats')
-          XRF.debug = 1
-        }
-
-        // add screenshot component with camera to capture bigger size equirects
-        // document.querySelector('a-scene').components.screenshot.capture('perspective')
-        $('a-scene').setAttribute("screenshot",{camera: "[camera]",width: 4096*2, height:2048*2})
-
-        if( window.outerWidth > 800 )
-          setTimeout( () => window.notify("use WASD-keys and mouse-drag to move around",{timeout:false}),2000 )
-
-        window.AFRAME.XRF.addEventListener('href', (data) => data.selected ? window.notify(`href: ${data.xrf.string}`) : false )
-
-        // enable user-uploaded asset files
-				let fileLoaders = loadFile({
-          ".gltf": (file) => file.arrayBuffer().then( (data) => xrf.navigator.to(file.name,null, (new xrf.loaders.gltf()), data) ),
-          ".glb":  (file) => file.arrayBuffer().then( (data) => xrf.navigator.to(file.name,null, (new xrf.loaders.gltf()), data) )
-				})
-				$("#overlay > input[type=submit]").addEventListener("click", fileLoaders )
-
+            This XR fragments experience works almost anywhere.<br>
+            Allowing rich audiovisual events with(out)<br>
+            VR/AR headsets (it's awesome though ♥️)<br>
+            <br>
+            <b>This uses only open standards:</b><br>
+            📦 surf 3D models using URLs<br>
+            🧑‍🤝‍🧑 <b>instant</b> meetings inside hyperlinked 3D models<br>
+            🚫 <b>zero proprietary</b> tech/game engines or platforms<br>
+            🙈 unhosted, privacy-friendly, avatar-agnostic scenes<br> 
+            🔗 <a href="https://xrfragment.org" target="_blank">XR Fragments</a> for 3D <b>hyper-linking</b> & navigation<br> 
+            📷 Serverless & encrypted <a href="https://webrtc.org" target="_blank">P2P WebRTC</a> using <a href="https://github.com/dmotz/trystero" target="_blank">trystero</a><br> 
+            🦍 <a href="https://immersiveweb.dev" target="_blank">WebXR</a> using <a href="https://aframe.io" target="_blank">AFRAME</a> + <a href="https://three.org" target="_blank">Three.js</a><br>
+            🙉 go selfhost <a href="https://github.com/coderofsalvation/xrfragment-helloworld">worlds-in-a-webpage</a><br>
+            ♥️  Be sustainable: go 100% <a href="https://www.forbes.com/sites/adrianbridgwater/2023/02/06/the-future-for-open-source/" target="_blank">opensource</a>
+            <br><br>
+            <a href="https://nlnet.nl" target="_blank">
+              <img src="https://nlnet.nl/image/logo_nlnet.svg" width="100"/>
+            </a>
+            <br><br>
+            `,{timeout:false})
       })
     </script>
+
+
+    <!-- everything below is completely optional and not part of the spec -->
+
+    <script src="https://xrfragment.org/dist/aframe-blink-controls.min.js"></script>                               <!-- teleporting using controllers -->
+    <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.9/build/handy-controls.min.js"></script>  <!-- hand controllers -->
+    <script src="https://xrfragment.org/dist/xrfragment.plugin.p2p.js"></script>      <!-- serverless p2p connectivity   -->
+    <script src="https://xrfragment.org/dist/xrfragment.plugin.matrix.js"></script>   <!-- matrix connectivity           -->
+    <script src="https://xrfragment.org/dist/xrfragment.plugin.frontend.js"></script> <!-- menu + chat interface         -->
+
   </body>
 </html>
