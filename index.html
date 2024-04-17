@@ -5,22 +5,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
 
-    <script src="https://xrfragment.org/dist/aframe.min.js"></script> <!-- v1.5.0 -->
+    <!-- AFRAME v1.5.0 + extra THREE.js extra loaders --> 
+    <script src="https://xrfragment.org/dist/aframe.min.js"></script> 
     <script src="https://xrfragment.org/dist/xrfragment.aframe.js"></script>
+
+    <!-- important: allow touchevents in AR -->
+    <style type="text/css"> canvas.a-dom-overlay:not(.a-no-style) { padding: 0; pointer-events: auto; }</style>
 
   </head>
   <body>
-
-    <a-scene xr-mode-ui="XRMode: xr"  renderer="colorManagement: true; highRefreshRate:true; multiviewStereo:true " light="defaultLightsEnabled: false">
-      <a-entity id="player" wasd-controls look-controls>
+    <a-scene xr-mode-ui="XRMode: xr"  
+             renderer="colorManagement: true; highRefreshRate:true;" 
+             light="defaultLightsEnabled: false">
+      <a-entity id="player" movement-controls touch-controls wasd-controls="fly:false" look-controls>
         <a-entity camera="fov:90" position="0 1.6 0" id="camera"></a-entity>
-        <a-entity id="left-hand"  laser-controls="hand: left" raycaster="objects:.ray" blink-controls="cameraRig:#player; teleportOrigin: #camera; collisionEntities: .floor">
+        <a-entity id="left-hand" hand-tracking-controls="hand:left;modelColor:#cccccc" raycaster="objects:.ray" blink-controls="cameraRig:#player; teleportOrigin: #camera; collisionEntities: .floor">
           <a-entity rotation="-35 0 0" position="0 0.1 0" id="navigator"> 
             <a-entity id="back" xrf-button="label: <; width:0.05; action: history.back()"    position="-0.025 0 0" class="ray"></a-entity>
             <a-entity id="next" xrf-button="label: >; width:0.05; action: history.forward()" position=" 0.025 0 0" class="ray"></a-entity>
           </a-entity>
         </a-entity>
-        <a-entity id="right-hand" laser-controls="hand: right" raycaster="objects:.ray" blink-controls="cameraRig:#player; teleportOrigin: #player; collisionEntities: .floor"></a-entity>
+        <a-entity id="right-hand" hand-tracking-controls="hand:right;modelColor:#cccccc" laser-controls="hand: right" raycaster="objects:.ray" blink-controls="cameraRig:#player; teleportOrigin: #camera; collisionEntities: .floor" xrf-pinchmove="rig: #player"></a-entity>
       </a-entity>
 
       <a-entity id="home" xrf="index.glb" xrf-menu></a-entity>
@@ -48,6 +53,7 @@
             <br>
             <b>This uses only open standards:</b><br>
             📦 surf 3D models using URLs<br>
+            🎞 interactive <a href="https://www.w3.org/TR/media-frags/" target="_blank">W3C Media Fragments</a> and <a href="https://en.wikipedia.org/wiki/URI_Template" target="_blank">URI Templates</a><br>
             🧑‍🤝‍🧑 <b>instant</b> meetings inside hyperlinked 3D models<br>
             🚫 <b>zero proprietary</b> tech/game engines or platforms<br>
             🙈 unhosted, privacy-friendly, avatar-agnostic scenes<br> 
@@ -68,11 +74,13 @@
 
     <!-- everything below is completely optional and not part of the spec -->
 
-    <script src="https://xrfragment.org/dist/aframe-blink-controls.min.js"></script>                               <!-- teleporting using controllers -->
-    <script src="https://cdn.jsdelivr.net/npm/handy-work@3.1.9/build/handy-controls.min.js"></script>  <!-- hand controllers -->
-    <script src="https://xrfragment.org/dist/xrfragment.plugin.p2p.js"></script>      <!-- serverless p2p connectivity   -->
-    <script src="https://xrfragment.org/dist/xrfragment.plugin.matrix.js"></script>   <!-- matrix connectivity           -->
-    <script src="https://xrfragment.org/dist/xrfragment.plugin.frontend.js"></script> <!-- menu + chat interface         -->
+    <script src="https://xrfragment.org/dist/aframe-blink-controls.min.js"></script>      <!-- teleporting using controllers -->
+    <script src="https://xrfragment.org/dist/xrfragment.plugin.p2p.js"></script>          <!-- serverless p2p connectivity   -->
+    <script src="https://xrfragment.org/dist/xrfragment.plugin.matrix.js"></script>       <!-- matrix connectivity           -->
+    <script src="https://xrfragment.org/dist/xrfragment.plugin.network.js"></script>      <!-- matrix and webrtc chat/scene examples --> 
+    <script src="https://xrfragment.org/dist/xrfragment.plugin.editor.js"></script>       <!-- basic editor example          --> 
+    <script src="https://xrfragment.org/dist/xrfragment.plugin.frontend.css.js"></script> <!-- basic menu interface css      -->
+    <script src="https://xrfragment.org/dist/xrfragment.plugin.frontend.js"></script>     <!-- basic menu interface          -->
 
   </body>
 </html>
