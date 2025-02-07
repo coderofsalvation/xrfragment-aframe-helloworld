@@ -10,25 +10,28 @@
     <script src="https://xrfragment.org/dist/xrfragment.aframe.js"></script>
 
     <!-- important: allow touchevents in AR -->
-    <style type="text/css"> canvas.a-dom-overlay:not(.a-no-style) { padding: 0; pointer-events: auto; }</style>
+    <style type="text/css">
+      canvas.a-dom-overlay:not(.a-no-style) { padding: 0; pointer-events: auto; }
+    </style>
 
   </head>
   <body>
     <a-scene xr-mode-ui="XRMode: xr"  
-             renderer="colorManagement: true; highRefreshRate:true;" 
+             renderer="colorManagement: false; stencil: true; antialias:true; highRefreshRate:true; foveationLevel: 0.5; toneMapping: ACESFilmic; exposure: 3.0" 
+             device-orientation-permission-ui xrf-gaze-always joystick
              light="defaultLightsEnabled: false">
-      <a-entity id="player" movement-controls touch-controls wasd-controls="fly:false" look-controls>
+      <a-entity id="player" movement-controls touch-controls="axis:y" wasd-controls="fly:false" look-controls="magicWindowTrackingEnabled:true">
         <a-entity camera="fov:90" position="0 1.6 0" id="camera"></a-entity>
-        <a-entity id="left-hand" hand-tracking-controls="hand:left;modelColor:#cccccc" raycaster="objects:.ray" blink-controls="cameraRig:#player; teleportOrigin: #camera; collisionEntities: .floor">
+        <a-entity id="left-hand" hand-tracking-grab-controls="hand:left;modelColor:#cccccc" raycaster="objects:.ray" blink-controls="cameraRig:#player; teleportOrigin: #camera; collisionEntities: .floor">
           <a-entity rotation="-35 0 0" position="0 0.1 0" id="navigator"> 
             <a-entity id="back" xrf-button="label: <; width:0.05; action: history.back()"    position="-0.025 0 0" class="ray"></a-entity>
             <a-entity id="next" xrf-button="label: >; width:0.05; action: history.forward()" position=" 0.025 0 0" class="ray"></a-entity>
           </a-entity>
         </a-entity>
-        <a-entity id="right-hand" hand-tracking-controls="hand:right;modelColor:#cccccc" laser-controls="hand: right" raycaster="objects:.ray" blink-controls="cameraRig:#player; teleportOrigin: #camera; collisionEntities: .floor" xrf-pinchmove="rig: #player"></a-entity>
+        <a-entity id="right-hand" hand-tracking-grab-controls="hand:right;modelColor:#cccccc" laser-controls="hand: right" raycaster="objects:.ray" blink-controls="cameraRig:#player; teleportOrigin: #camera; collisionEntities: .floor" xrf-pinchmove="rig: #player"></a-entity>
       </a-entity>
 
-      <a-entity id="home" xrf="index.glb" xrf-menu></a-entity>
+      <a-entity id="home" xrf="https://xrfragment.org/example/assets/index.glb"></a-entity>
     </a-scene>
 
     <!-- OPTIONAL                                                                                            -->
@@ -38,8 +41,8 @@
     <script>
 
       document.addEventListener('$menu:ready', (e) => {
-        let {$menu} = e.detail
         // add your menubuttons:
+        let {$menu} = e.detail
         $menu.buttons = $menu.buttons.concat([
           `<a class="btn" aria-label="button" aria-title="menu button" onclick="$menu.showAbout()"><i class="gg-info"></i>&nbsp;&nbsp;&nbsp;about</a><br>`
         ])
@@ -68,7 +71,11 @@
             </a>
             <br><br>
             `,{timeout:false})
+
+        frontend.notify_links           = true  // shows href/src's as notifications when hovering buttons
+        xrf.navigator.opts.openInNewTab = false // open webpages in new tabs
       })
+
     </script>
 
 
